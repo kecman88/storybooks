@@ -37,7 +37,9 @@ module.exports = function(passport) {
                         .then(user => {
                             done(null, user);
                         })
-
+                        .catch(err => {
+                            done(err, null);
+                        })
                 }
             })
 
