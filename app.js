@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
@@ -14,8 +15,9 @@ const port = process.env.PORT || 5000;
 // Initialize app
 const app = express();
 
-// Load User model
+// Load models
 require('./models/User');
+require('./models/Story');
 
 // Passport config
 require('./config/passport')(passport);
@@ -37,6 +39,10 @@ app.engine('handlebars', exphbs({
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
+
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // Load routes
 const auth = require('./routes/auth');
