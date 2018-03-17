@@ -11,7 +11,9 @@ router.get('/', (req, res) => {
     })
     .populate('user')
     .then(stories => {
-        res.render('stories/index', stories);    
+        res.render('stories/index', {
+            stories: stories
+        });    
     })
 });
 
