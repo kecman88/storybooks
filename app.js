@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -40,12 +41,16 @@ app.set('view engine', 'handlebars');
 // Load routes
 const auth = require('./routes/auth');
 const index = require('./routes/index');
+const stories = require('./routes/stories');
 
 // Set global variables
 app.use((req, res, next) => {
     res.locals.user = req.user || null;
     next();
 });
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Map global promises
 mongoose.Promise = global.Promise;
@@ -59,6 +64,7 @@ mongoose.connect(keys.mongoURI)
 // Use routes
 app.use('/auth', auth);
 app.use('/', index);
+app.use('/stories', stories);
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
