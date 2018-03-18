@@ -9,6 +9,11 @@ const session = require('express-session');
 
 const keys = require('./config/keys');
 
+// Handlebar helpers
+const {
+    truncate, stripTags, formatDate
+} = require('./helpers/hbs');
+
 
 const port = process.env.PORT || 5000;
 
@@ -36,6 +41,11 @@ app.use(passport.session());
 
 // Handlebars middleware
 app.engine('handlebars', exphbs({
+    helpers: {
+        truncate: truncate,
+        stripTags: stripTags,
+        formatDate: formatDate
+    },
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
