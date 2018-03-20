@@ -52,7 +52,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
     Story.findOne({
         _id: req.params.id
     })
@@ -117,7 +117,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 })
 
 // Add comment
-router.post('/:id/comment', (req, res) => {
+router.post('/:id/comment', ensureAuthenticated, (req, res) => {
     Story.findOne({
         _id: req.params.id
     }).then(story => {
@@ -133,5 +133,33 @@ router.post('/:id/comment', (req, res) => {
             });
     });
 });
+
+// List stories from user
+router.get('/user/:userId', ensureAuthenticated, (req, res) => {
+    Story.find({
+        user: req.params.userId,
+        status: 'public'
+    })
+    .populate('user')
+    .then(stories => {
+        res.render('stories/index', {
+            stories: stories
+        })
+    });
+});
+
+// My stories
+router.get('/my', ensureAuthenticated, (req, res) => {
+    Story.find({
+        user: req.user.id
+    })
+    .populate('user')
+    .then(stories => {
+        res.render('stories/index', {
+            stories: stories
+        })
+    });
+});
+
 
 module.exports = router;
