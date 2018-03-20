@@ -12,7 +12,7 @@ const keys = require('./config/keys');
 
 // Handlebar helpers
 const {
-    truncate, stripTags, formatDate
+    truncate, stripTags, formatDate, editIcon
 } = require('./helpers/hbs');
 
 
@@ -45,7 +45,8 @@ app.engine('handlebars', exphbs({
     helpers: {
         truncate: truncate,
         stripTags: stripTags,
-        formatDate: formatDate
+        formatDate: formatDate,
+        editIcon: editIcon
     },
     defaultLayout: 'main'
 }));

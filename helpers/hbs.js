@@ -16,5 +16,16 @@ module.exports = {
     },
     formatDate: function(date, format) {
         return moment(date).format(format);
+    },
+    editIcon: function(storyUser, loggedUser, storyId, floating = true) {
+        if (storyUser == loggedUser) {
+            if (floating) {
+                return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab red" ><i class="fa fa-pencil"></i></a>`
+            } else {
+                return `<a href="/stories/edit/${storyId}" ><i class="fa fa-pencil"></i></a>`
+            }
+        } else {
+            return '';
+        }
     }
 }

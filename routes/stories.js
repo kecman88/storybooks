@@ -9,6 +9,9 @@ router.get('/', (req, res) => {
     Story.find({
         status: 'public'
     })
+    .sort({
+        date: 'desc'
+    })
     .populate('user')
     .then(stories => {
         res.render('stories/index', {
@@ -39,9 +42,13 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
         _id: req.params.id
     })
     .then(story => {
-        res.render('stories/edit', {
-            story: story
-        })
+        if (story.user != req.user.id) {
+            res.redirect('/stories');
+        } else {
+            res.render('stories/edit', {
+                story: story
+            })
+        }
     });
 });
 
